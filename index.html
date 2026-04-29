@@ -10,78 +10,95 @@
     --navy:#223670;--navy-dark:#16254d;--navy-light:#2d4a99;
     --gold:#D0A900;--gold-light:#f0c800;--gold-pale:#fff8d6;
     --bg:#f4f6fb;--white:#ffffff;--text:#1a1f2e;--muted:#6b7280;
-    --border:#dde3f0;--success:#16a34a;--note-orange:#e85d04;
+    --border:#dde3f0;--success:#16a34a;--warn:#e85d04;
     --x-black:#14171a;--threads-dark:#1a1a1a;--fb-blue:#1877f2;--ig-pink:#c13584;
     --radius:12px;--radius-lg:18px;
     --shadow:0 4px 20px rgba(34,54,112,0.10);--shadow-lg:0 8px 40px rgba(34,54,112,0.16);
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+  /* Header */
   .header{background:linear-gradient(135deg,var(--navy-dark) 0%,var(--navy) 60%,var(--navy-light) 100%);padding:28px 24px 24px;text-align:center;position:relative;overflow:hidden;}
   .header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 20%,rgba(208,169,0,0.18) 0%,transparent 60%);}
   .header-badge{display:inline-block;background:var(--gold);color:var(--navy-dark);font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px;letter-spacing:.05em;margin-bottom:10px;position:relative;}
-  .header h1{font-family:'Zen Kaku Gothic New',sans-serif;font-size:clamp(26px,6vw,38px);font-weight:900;color:var(--white);letter-spacing:-.02em;line-height:1.1;position:relative;}
+  .header h1{font-family:'Zen Kaku Gothic New',sans-serif;font-size:clamp(24px,6vw,36px);font-weight:900;color:var(--white);letter-spacing:-.02em;line-height:1.1;position:relative;}
   .header h1 span{color:var(--gold);}
-  .header-sub{color:rgba(255,255,255,.75);font-size:13px;margin-top:8px;position:relative;}
-  .container{max-width:800px;margin:0 auto;padding:24px 16px 60px;}
+  .header-sub{color:rgba(255,255,255,.75);font-size:12px;margin-top:8px;position:relative;}
+
+  .container{max-width:800px;margin:0 auto;padding:24px 16px 80px;}
 
   /* Step Indicator */
-  .step-indicator{display:flex;align-items:center;margin-bottom:24px;background:var(--white);border-radius:var(--radius);padding:14px 20px;box-shadow:var(--shadow);}
+  .step-indicator{display:flex;align-items:flex-start;margin-bottom:24px;background:var(--white);border-radius:var(--radius);padding:16px 20px;box-shadow:var(--shadow);}
   .step-dot{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;position:relative;}
-  .step-dot:not(:last-child)::after{content:'';position:absolute;top:16px;left:calc(50% + 16px);width:calc(100% - 32px);height:2px;background:var(--border);transition:background .4s;}
+  .step-dot:not(:last-child)::after{content:'';position:absolute;top:15px;left:calc(50% + 14px);width:calc(100% - 28px);height:2px;background:var(--border);transition:background .4s;}
   .step-dot.done:not(:last-child)::after{background:var(--gold);}
-  .step-num{width:32px;height:32px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:var(--muted);background:var(--bg);transition:all .3s;position:relative;z-index:1;}
+  .step-num{width:30px;height:30px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:var(--muted);background:var(--bg);transition:all .3s;position:relative;z-index:1;}
   .step-dot.active .step-num{border-color:var(--navy);background:var(--navy);color:white;}
   .step-dot.done .step-num{border-color:var(--gold);background:var(--gold);color:var(--navy-dark);}
-  .step-label{font-size:11px;color:var(--muted);font-weight:700;text-align:center;}
+  .step-label{font-size:10px;color:var(--muted);font-weight:700;text-align:center;line-height:1.3;}
   .step-dot.active .step-label{color:var(--navy);}
   .step-dot.done .step-label{color:var(--gold);}
 
   /* Card */
   .card{background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:24px;margin-bottom:20px;transition:opacity .3s,filter .3s;}
-  .card.locked{opacity:.4;pointer-events:none;filter:grayscale(.3);}
+  .card.locked{opacity:.35;pointer-events:none;filter:grayscale(.4);}
   .card-title{font-family:'Zen Kaku Gothic New',sans-serif;font-size:16px;font-weight:900;color:var(--navy);margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--border);display:flex;align-items:center;gap:8px;}
   .card-title .icon{width:28px;height:28px;background:var(--navy);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
-  .step-tag{margin-left:auto;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:.05em;}
-  .step-tag.s1{background:var(--navy);color:white;}
-  .step-tag.s2{background:var(--gold);color:var(--navy-dark);}
-  .step-tag.s3{background:var(--note-orange);color:white;}
+  .step-tag{margin-left:auto;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:.04em;white-space:nowrap;}
+  .s1{background:var(--navy);color:white;}
+  .s2{background:var(--gold);color:var(--navy-dark);}
+  .s3{background:#7c3aed;color:white;}
+  .s4{background:var(--warn);color:white;}
 
   /* Form */
   .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
   .form-grid .full{grid-column:1/-1;}
-  .field label{display:block;font-size:12px;font-weight:700;color:var(--navy);margin-bottom:5px;letter-spacing:.03em;}
-  .field label .req{color:var(--note-orange);margin-left:3px;}
-  .field input,.field select,.field textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;font-family:'Noto Sans JP',sans-serif;font-size:14px;color:var(--text);background:var(--white);transition:border-color .2s,box-shadow .2s;outline:none;}
-  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(34,54,112,.10);}
-  .field textarea{resize:vertical;min-height:80px;}
+  .field label{display:block;font-size:12px;font-weight:700;color:var(--navy);margin-bottom:5px;}
+  .field label .req{color:var(--warn);margin-left:3px;}
+  .field input,.field textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;font-family:'Noto Sans JP',sans-serif;font-size:14px;color:var(--text);background:var(--white);transition:border-color .2s,box-shadow .2s;outline:none;}
+  .field input:focus,.field textarea:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(34,54,112,.10);}
+  .field textarea{resize:vertical;min-height:76px;}
   .field input::placeholder,.field textarea::placeholder{color:#b0b8cc;}
-  .ai-generated{border-color:var(--gold)!important;background:var(--gold-pale)!important;}
-  .ai-label{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;color:var(--gold);background:var(--navy-dark);padding:2px 8px;border-radius:20px;margin-bottom:5px;}
+
+  /* AI Badge */
+  .ai-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;color:var(--gold);background:var(--navy-dark);padding:2px 8px;border-radius:20px;margin-bottom:6px;}
 
   /* Buttons */
-  .analyze-btn{width:100%;padding:18px;background:linear-gradient(135deg,var(--gold) 0%,var(--gold-light) 100%);color:var(--navy-dark);border:none;border-radius:var(--radius);font-family:'Zen Kaku Gothic New',sans-serif;font-size:18px;font-weight:900;cursor:pointer;transition:all .2s;letter-spacing:.03em;}
-  .analyze-btn:hover{transform:translateY(-1px);box-shadow:var(--shadow-lg);}
-  .analyze-btn:active{transform:translateY(0);}
-  .analyze-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
-  .generate-btn{width:100%;padding:18px;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);color:var(--white);border:none;border-radius:var(--radius);font-family:'Zen Kaku Gothic New',sans-serif;font-size:18px;font-weight:900;cursor:pointer;transition:all .2s;letter-spacing:.03em;}
-  .generate-btn:hover{transform:translateY(-1px);box-shadow:var(--shadow-lg);}
-  .generate-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+  .btn-gold{width:100%;padding:17px;background:linear-gradient(135deg,var(--gold) 0%,var(--gold-light) 100%);color:var(--navy-dark);border:none;border-radius:var(--radius);font-family:'Zen Kaku Gothic New',sans-serif;font-size:17px;font-weight:900;cursor:pointer;transition:all .2s;letter-spacing:.03em;}
+  .btn-gold:hover{transform:translateY(-1px);box-shadow:var(--shadow-lg);}
+  .btn-gold:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+  .btn-navy{width:100%;padding:17px;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);color:var(--white);border:none;border-radius:var(--radius);font-family:'Zen Kaku Gothic New',sans-serif;font-size:17px;font-weight:900;cursor:pointer;transition:all .2s;letter-spacing:.03em;}
+  .btn-navy:hover{transform:translateY(-1px);box-shadow:var(--shadow-lg);}
+  .btn-navy:disabled{opacity:.5;cursor:not-allowed;transform:none;}
   .btn-sub{display:block;font-size:12px;font-weight:400;opacity:.8;margin-top:3px;font-family:'Noto Sans JP',sans-serif;}
+  .btn-outline{padding:11px 16px;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius);font-family:'Noto Sans JP',sans-serif;font-size:13px;font-weight:700;color:var(--navy);cursor:pointer;transition:all .2s;text-align:center;}
+  .btn-outline:hover{border-color:var(--navy);background:var(--gold-pale);}
 
-  /* Length */
-  .length-selector{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;}
-  .length-btn{flex:1;min-width:90px;padding:10px 8px;border:2px solid var(--border);border-radius:10px;background:var(--white);cursor:pointer;text-align:center;transition:all .2s;font-family:'Noto Sans JP',sans-serif;}
-  .length-btn .len-num{display:block;font-size:18px;font-weight:900;color:var(--navy);font-family:'Zen Kaku Gothic New',sans-serif;}
-  .length-btn .len-desc{display:block;font-size:10px;color:var(--muted);margin-top:2px;}
-  .length-btn.active{border-color:var(--navy);background:var(--navy);}
-  .length-btn.active .len-num{color:var(--gold);}
-  .length-btn.active .len-desc{color:rgba(255,255,255,.75);}
+  /* Selection Cards - Episode & Opening */
+  .select-hint{font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.6;padding:10px 14px;background:var(--gold-pale);border-radius:8px;border-left:3px solid var(--gold);}
+  .sel-cards{display:flex;flex-direction:column;gap:10px;margin-bottom:16px;}
+  .sel-card{border:2px solid var(--border);border-radius:var(--radius);padding:14px 16px;cursor:pointer;transition:all .2s;position:relative;background:var(--white);}
+  .sel-card:hover{border-color:var(--navy-light);background:#f8f9ff;}
+  .sel-card.selected{border-color:var(--navy);background:#eef1fb;}
+  .sel-card.selected::before{content:'✓';position:absolute;top:10px;right:12px;width:22px;height:22px;background:var(--navy);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;}
+  .sel-card-label{font-size:10px;font-weight:900;color:var(--navy);background:var(--gold-pale);padding:2px 8px;border-radius:20px;display:inline-block;margin-bottom:6px;}
+  .sel-card.selected .sel-card-label{background:var(--navy);color:var(--gold);}
+  .sel-card-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:4px;}
+  .sel-card-body{font-size:13px;color:var(--muted);line-height:1.65;}
+  .sel-card-example{font-size:12px;color:var(--navy-light);margin-top:6px;font-style:italic;background:#f0f3ff;padding:6px 10px;border-radius:6px;}
+
+  /* Personalize Input */
+  .personalize-box{margin-top:14px;padding:14px;background:#f8f9ff;border:1.5px solid var(--border);border-radius:var(--radius);}
+  .personalize-box label{display:block;font-size:12px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+  .personalize-box textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:9px 12px;font-family:'Noto Sans JP',sans-serif;font-size:13px;color:var(--text);background:var(--white);resize:vertical;min-height:60px;outline:none;transition:border-color .2s;}
+  .personalize-box textarea:focus{border-color:var(--navy);}
+  .personalize-hint{font-size:11px;color:var(--muted);margin-top:5px;}
 
   /* Loading */
-  .loading-wrap{display:none;text-align:center;padding:40px 20px;}
+  .loading-wrap{display:none;text-align:center;padding:36px 20px;}
   .loading-wrap.show{display:block;}
-  .spinner{width:48px;height:48px;border:4px solid var(--border);border-top-color:var(--navy);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px;}
+  .spinner{width:46px;height:46px;border:4px solid var(--border);border-top-color:var(--navy);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 14px;}
   @keyframes spin{to{transform:rotate(360deg);}}
   .loading-label{font-weight:700;color:var(--navy);margin-bottom:8px;font-size:15px;}
   .loading-step{margin:4px 0;opacity:.4;transition:opacity .3s;font-size:13px;color:var(--muted);}
@@ -91,20 +108,20 @@
   .output-section{display:none;}
   .output-section.show{display:block;}
   .output-tabs{display:flex;gap:6px;margin-bottom:16px;background:var(--bg);padding:6px;border-radius:var(--radius);}
-  .output-tab{flex:1;padding:10px 8px;border:none;border-radius:8px;background:transparent;font-family:'Noto Sans JP',sans-serif;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;transition:all .2s;text-align:center;}
+  .output-tab{flex:1;padding:9px 6px;border:none;border-radius:8px;background:transparent;font-family:'Noto Sans JP',sans-serif;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;transition:all .2s;text-align:center;}
   .output-tab.active{background:var(--white);color:var(--navy);box-shadow:var(--shadow);}
-  .tab-icon{display:block;font-size:18px;margin-bottom:2px;}
+  .tab-icon{display:block;font-size:17px;margin-bottom:2px;}
   .tab-content{display:none;}
   .tab-content.active{display:block;}
-  .output-box{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius);padding:20px;font-size:14px;line-height:1.85;white-space:pre-wrap;word-break:break-all;min-height:200px;color:var(--text);}
+  .output-box{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius);padding:20px;font-size:14px;line-height:1.9;white-space:pre-wrap;word-break:break-all;min-height:200px;color:var(--text);}
   .output-box.note-style{background:#fff9f0;border-color:#ffd8a0;}
 
   /* SNS */
-  .sns-day{margin-bottom:16px;border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;}
-  .sns-day-header{padding:10px 16px;background:var(--navy);color:var(--white);font-weight:700;font-size:14px;display:flex;align-items:center;gap:8px;}
-  .day-badge{background:var(--gold);color:var(--navy-dark);font-size:11px;padding:2px 8px;border-radius:20px;font-weight:900;}
-  .sns-posts{padding:12px;background:var(--white);}
-  .sns-post{display:flex;gap:10px;padding:10px;border-radius:8px;margin-bottom:8px;align-items:flex-start;}
+  .sns-day{margin-bottom:14px;border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+  .sns-day-header{padding:9px 14px;background:var(--navy);color:var(--white);font-weight:700;font-size:13px;display:flex;align-items:center;gap:8px;}
+  .day-badge{background:var(--gold);color:var(--navy-dark);font-size:10px;padding:2px 8px;border-radius:20px;font-weight:900;}
+  .sns-posts{padding:10px;background:var(--white);}
+  .sns-post{display:flex;gap:9px;padding:9px;border-radius:8px;margin-bottom:7px;align-items:flex-start;}
   .sns-post:last-child{margin-bottom:0;}
   .sns-post.x-post{background:#f5f8fa;border-left:3px solid var(--x-black);}
   .sns-post.threads-post{background:#f5f5f5;border-left:3px solid var(--threads-dark);}
@@ -116,17 +133,24 @@
   .fb-label{background:var(--fb-blue);color:white;}
   .ig-label{background:var(--ig-pink);color:white;}
   .sns-text{font-size:13px;line-height:1.7;flex:1;white-space:pre-wrap;word-break:break-all;}
-  .copy-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--navy);color:var(--white);border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;font-family:'Noto Sans JP',sans-serif;}
+
+  /* Buttons bar */
+  .copy-btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;background:var(--navy);color:var(--white);border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;font-family:'Noto Sans JP',sans-serif;}
   .copy-btn:hover{background:var(--navy-light);}
   .copy-btn.copied{background:var(--success);}
-  .copy-bar{display:flex;justify-content:flex-end;margin-top:12px;gap:8px;}
+  .copy-bar{display:flex;justify-content:flex-end;margin-top:10px;gap:8px;}
   .regen-bar{display:flex;gap:10px;margin-top:16px;padding-top:16px;border-top:1.5px solid var(--border);}
-  .regen-btn{flex:1;padding:12px;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius);font-family:'Noto Sans JP',sans-serif;font-size:13px;font-weight:700;color:var(--navy);cursor:pointer;transition:all .2s;text-align:center;}
-  .regen-btn:hover{border-color:var(--navy);background:var(--gold-pale);}
 
   .footer{text-align:center;padding:20px;font-size:11px;color:var(--muted);}
   .footer a{color:var(--navy);text-decoration:none;}
-  @media(max-width:560px){.form-grid{grid-template-columns:1fr;}.form-grid .full{grid-column:1;}.output-tabs{flex-wrap:wrap;}.step-label{font-size:9px;}}
+
+  @media(max-width:560px){
+    .form-grid{grid-template-columns:1fr;}
+    .form-grid .full{grid-column:1;}
+    .output-tabs{flex-wrap:wrap;}
+    .step-label{font-size:9px;}
+    .sel-card{padding:12px;}
+  }
 </style>
 </head>
 <body>
@@ -134,7 +158,7 @@
 <div class="header">
   <div class="header-badge">みっけシリーズ</div>
   <h1>販売<span>みっけ</span> 🎯</h1>
-  <p class="header-sub">商品名を入れるだけ → ターゲット分析 → note記事＋SNS集客プランを一括生成</p>
+  <p class="header-sub">商品名を入れるだけ → ターゲット分析 → エピソード選択 → 書き出し選択 → note記事＋SNS集客プランを一括生成</p>
 </div>
 
 <div class="container">
@@ -143,19 +167,27 @@
   <div class="step-indicator">
     <div class="step-dot active" id="dot1">
       <div class="step-num">1</div>
-      <div class="step-label">商品情報を入力</div>
+      <div class="step-label">商品情報<br>を入力</div>
     </div>
     <div class="step-dot" id="dot2">
       <div class="step-num">2</div>
-      <div class="step-label">ターゲットを確認</div>
+      <div class="step-label">ターゲット<br>を確認</div>
     </div>
     <div class="step-dot" id="dot3">
       <div class="step-num">3</div>
-      <div class="step-label">記事＋SNSを生成</div>
+      <div class="step-label">エピソード<br>を選ぶ</div>
+    </div>
+    <div class="step-dot" id="dot4">
+      <div class="step-num">4</div>
+      <div class="step-label">書き出し<br>を選ぶ</div>
+    </div>
+    <div class="step-dot" id="dot5">
+      <div class="step-num">5</div>
+      <div class="step-label">記事＋SNS<br>を生成</div>
     </div>
   </div>
 
-  <!-- STEP 1 -->
+  <!-- STEP 1: 商品情報 -->
   <div class="card" id="card-step1">
     <div class="card-title">
       <div class="icon">📦</div>商品・サービス情報
@@ -168,7 +200,7 @@
       </div>
       <div class="field">
         <label>価格帯</label>
-        <input type="text" id="price" placeholder="例：月額2,980円（3回無料）">
+        <input type="text" id="price" placeholder="例：月額2,980円">
       </div>
       <div class="field full">
         <label>キャッチコピー<span class="req">*</span></label>
@@ -178,33 +210,11 @@
         <label>アプリURL・サービスURL</label>
         <input type="text" id="appUrl" placeholder="例：https://spc-jp.github.io/hanbai-mikke/">
       </div>
-      <div class="field">
-        <label>ジャンル</label>
-        <select id="genre">
-          <option value="AIツール・Web集客">AIツール・Web集客</option>
-          <option value="コンテンツ販売">コンテンツ販売</option>
-          <option value="業務効率化ツール">業務効率化ツール</option>
-          <option value="士業・専門家向け">士業・専門家向け</option>
-          <option value="飲食・店舗向け">飲食・店舗向け</option>
-          <option value="美容・サロン向け">美容・サロン向け</option>
-          <option value="製造業向け">製造業向け</option>
-          <option value="不動産・リフォーム">不動産・リフォーム</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>無料体験</label>
-        <select id="freeTrial">
-          <option value="あり（3回無料）">あり（3回無料）</option>
-          <option value="あり（7日間無料）">あり（7日間無料）</option>
-          <option value="デモ動画あり">デモ動画あり</option>
-          <option value="なし">なし</option>
-        </select>
-      </div>
     </div>
     <div style="margin-top:20px;">
-      <button class="analyze-btn" id="analyzeBtn" onclick="analyzeTarget()">
-        🔍 ターゲット＆訴求ポイントをAIが分析する
-        <span class="btn-sub">商品情報をもとにAIがペルソナ・悩み・強みを自動生成します</span>
+      <button class="btn-gold" id="analyzeBtn" onclick="analyzeTarget()">
+        🔍 ターゲット＆エピソード候補をAIが分析する
+        <span class="btn-sub">商品情報をもとにペルソナ・悩み・エピソード候補を自動生成します</span>
       </button>
     </div>
   </div>
@@ -212,13 +222,14 @@
   <!-- Loading 1 -->
   <div class="loading-wrap" id="loadingAnalyze">
     <div class="spinner"></div>
-    <div class="loading-label">ターゲットを分析中...</div>
+    <div class="loading-label">分析中...</div>
     <div class="loading-step active" id="as1">🎯 ターゲット像を構築中...</div>
     <div class="loading-step" id="as2">💬 悩み・訴求ポイントを言語化中...</div>
-    <div class="loading-step" id="as3">✨ 仕上げ中...</div>
+    <div class="loading-step" id="as3">📖 エピソード候補を生成中...</div>
+    <div class="loading-step" id="as4">✨ 仕上げ中...</div>
   </div>
 
-  <!-- STEP 2 -->
+  <!-- STEP 2: ターゲット確認 -->
   <div class="card locked" id="card-step2">
     <div class="card-title">
       <div class="icon">🎯</div>ターゲット＆訴求ポイント
@@ -227,65 +238,120 @@
     <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6;">AIが分析した内容です。確認・修正してから次へ進んでください。</p>
     <div class="form-grid">
       <div class="field full">
-        <div class="ai-label">✨ AI生成</div>
+        <div class="ai-badge">✨ AI生成</div>
         <label>ターゲット像（ペルソナ）</label>
         <textarea id="target" rows="3" placeholder="AIが自動生成します"></textarea>
       </div>
       <div class="field full">
-        <div class="ai-label">✨ AI生成</div>
+        <div class="ai-badge">✨ AI生成</div>
         <label>ターゲットの悩み・キーワード</label>
-        <textarea id="pain" rows="4" placeholder="AIが自動生成します"></textarea>
+        <textarea id="pain" rows="3" placeholder="AIが自動生成します"></textarea>
       </div>
       <div class="field full">
-        <div class="ai-label">✨ AI生成</div>
+        <div class="ai-badge">✨ AI生成</div>
         <label>訴求ポイント・強み</label>
         <textarea id="strength" rows="3" placeholder="AIが自動生成します"></textarea>
       </div>
-      <div class="field full">
-        <div class="ai-label">✨ AI生成</div>
-        <label>想定エピソード・事例</label>
-        <textarea id="episode" rows="3" placeholder="AIが自動生成します"></textarea>
-      </div>
     </div>
-    <div class="regen-bar">
-      <button class="regen-btn" onclick="analyzeTarget()">🔄 ターゲットを再生成する</button>
+    <div style="margin-top:16px;">
+      <button class="btn-gold" onclick="showEpisodeCards()">
+        次へ → エピソードを選ぶ
+        <span class="btn-sub">3つの候補から一番近いエピソードを選びます</span>
+      </button>
     </div>
   </div>
 
-  <!-- STEP 3 -->
+  <!-- STEP 3: エピソード選択 -->
   <div class="card locked" id="card-step3">
     <div class="card-title">
-      <div class="icon">📝</div>note記事の文字数を選ぶ
-      <span class="step-tag s3">STEP 3</span>
+      <div class="icon">📖</div>エピソードを選ぶ
+      <span class="step-tag s3">STEP 3 人間の味付け</span>
     </div>
-    <div class="length-selector">
-      <button class="length-btn active" data-length="1500">
-        <span class="len-num">1,500字</span>
-        <span class="len-desc">X・Threads流入向け</span>
-      </button>
-      <button class="length-btn" data-length="2500">
-        <span class="len-num">2,500字</span>
-        <span class="len-desc">note内SEO・検索流入向け</span>
-      </button>
-      <button class="length-btn" data-length="4000">
-        <span class="len-num">長文4,000字+</span>
-        <span class="len-desc">LINE・メルマガ誘導向け</span>
+    <div class="select-hint">
+      💡 AI文章と人間の文章の違いは「リアルなエピソード」だけです。<br>
+      3つの候補から一番近いものを選んで、具体的な数字や固有名詞を足してください。それだけで記事が激変します。
+    </div>
+    <div class="sel-cards" id="episodeCards"></div>
+    <div class="personalize-box" id="personalizeBox" style="display:none;">
+      <label>✏️ 選んだエピソードに、あなたの実体験を足してください</label>
+      <textarea id="episodePersonal" placeholder="例：本間先生が初めて使ったとき「こんな簡単にできるの？」と言って、その場でもう1件試してくれた。3分で終わったのを見て自分でも驚いた。"></textarea>
+      <div class="personalize-hint">数字・固有名詞・感情のひとことを入れるだけでOKです。うまく書こうとしなくていいです。</div>
+    </div>
+    <div style="margin-top:16px;">
+      <button class="btn-gold" id="toStep4Btn" onclick="showOpeningCards()" style="display:none;">
+        次へ → 書き出しパターンを選ぶ
+        <span class="btn-sub">記事の書き出しで読者の心をつかみます</span>
       </button>
     </div>
-    <button class="generate-btn" id="generateBtn" onclick="generate()">
-      ✨ note記事 ＋ SNS集客プランを生成する
-      <span class="btn-sub">入力した情報をもとにAIが売れる構成で自動生成します</span>
-    </button>
+  </div>
+
+  <!-- STEP 4: 書き出し選択 -->
+  <div class="card locked" id="card-step4">
+    <div class="card-title">
+      <div class="icon">✍️</div>書き出しパターンを選ぶ
+      <span class="step-tag s4">STEP 4 書き出しで決まる</span>
+    </div>
+    <div class="select-hint">
+      💡 記事の書き出しは読者が「続きを読むか」を決める0.3秒です。<br>
+      3つのパターンから選んでください。選んだ書き出しで記事全体のトーンが決まります。
+    </div>
+    <div class="sel-cards" id="openingCards">
+      <div class="sel-card" onclick="selectOpening(this, 'sympathy')" data-type="sympathy">
+        <div class="sel-card-label">パターンA｜共感型</div>
+        <div class="sel-card-title">読者の悩みに「そうそう！」と言わせる</div>
+        <div class="sel-card-body">「〇〇に悩んでいませんか」から始まるパターン。読者が自分のことを書かれていると感じる書き出し。フォロワーへの親近感を育てたいときに最適。</div>
+        <div class="sel-card-example">「noteで記事を書いても、なかなか売れない。そう感じていませんか？」</div>
+      </div>
+      <div class="sel-card" onclick="selectOpening(this, 'shock')" data-type="shock">
+        <div class="sel-card-label">パターンB｜衝撃事実型</div>
+        <div class="sel-card-title">「えっ、本当に？」と思わせる</div>
+        <div class="sel-card-body">知られていない事実・数字・逆説から始まるパターン。拡散されやすく、初見の読者を引き込む力が強い。新規フォロワーを獲得したいときに最適。</div>
+        <div class="sel-card-example">「noteで売れている人の9割は、記事を書く前にある"準備"をしています。」</div>
+      </div>
+      <div class="sel-card" onclick="selectOpening(this, 'story')" data-type="story">
+        <div class="sel-card-label">パターンC｜体験談型</div>
+        <div class="sel-card-title">「この人、信頼できそう」と思わせる</div>
+        <div class="sel-card-body">「先日、こんなことがありました」から始まるパターン。書いた人の人柄が伝わり、ファン化しやすい。既存フォロワーとの関係を深めたいときに最適。</div>
+        <div class="sel-card-example">「先日、20年来のクライアントからこんな一言をもらいました。」</div>
+      </div>
+    </div>
+
+    <!-- 書き出しの文字数 -->
+    <div style="margin-top:20px;">
+      <p style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:10px;">note記事の文字数を選ぶ</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="length-btn active" data-length="1500" onclick="selectLength(this)">
+          <span style="display:block;font-size:17px;font-weight:900;color:inherit;font-family:'Zen Kaku Gothic New',sans-serif;">1,500字</span>
+          <span style="display:block;font-size:10px;opacity:.75;margin-top:2px;">X・Threads流入向け</span>
+        </button>
+        <button class="length-btn" data-length="2500" onclick="selectLength(this)">
+          <span style="display:block;font-size:17px;font-weight:900;color:inherit;font-family:'Zen Kaku Gothic New',sans-serif;">2,500字</span>
+          <span style="display:block;font-size:10px;opacity:.75;margin-top:2px;">note内SEO・検索流入向け</span>
+        </button>
+        <button class="length-btn" data-length="4000" onclick="selectLength(this)">
+          <span style="display:block;font-size:17px;font-weight:900;color:inherit;font-family:'Zen Kaku Gothic New',sans-serif;">長文4,000字+</span>
+          <span style="display:block;font-size:10px;opacity:.75;margin-top:2px;">LINE・メルマガ誘導向け</span>
+        </button>
+      </div>
+    </div>
+
+    <div style="margin-top:20px;">
+      <button class="btn-navy" id="generateBtn" onclick="generate()">
+        ✨ note記事 ＋ SNS集客プランを生成する
+        <span class="btn-sub">選んだエピソード・書き出しで"人間らしい"記事を生成します</span>
+      </button>
+    </div>
   </div>
 
   <!-- Loading 2 -->
   <div class="loading-wrap" id="loadingGenerate">
     <div class="spinner"></div>
     <div class="loading-label">生成中...</div>
-    <div class="loading-step active" id="gs1">📝 売れるnote記事を構成中...</div>
-    <div class="loading-step" id="gs2">📣 SNS集客7日間プランを設計中...</div>
-    <div class="loading-step" id="gs3">🗺️ 全体戦略をまとめ中...</div>
-    <div class="loading-step" id="gs4">✨ 仕上げ中...</div>
+    <div class="loading-step active" id="gs1">📝 選んだ書き出しで記事を構成中...</div>
+    <div class="loading-step" id="gs2">📖 エピソードを記事に組み込み中...</div>
+    <div class="loading-step" id="gs3">📣 SNS集客7日間プランを設計中...</div>
+    <div class="loading-step" id="gs4">🗺️ 全体戦略をまとめ中...</div>
+    <div class="loading-step" id="gs5">✨ 仕上げ中...</div>
   </div>
 
   <!-- Output -->
@@ -306,135 +372,234 @@
         <div class="copy-bar"><button class="copy-btn" onclick="copyText('strategyOutput',this)">📋 戦略メモをコピー</button></div>
       </div>
       <div class="regen-bar">
-        <button class="regen-btn" onclick="generate()">🔄 別パターンを再生成</button>
-        <button class="regen-btn" onclick="document.getElementById('card-step1').scrollIntoView({behavior:'smooth'})">✏️ 内容を修正して再生成</button>
+        <button class="btn-outline" onclick="generate()">🔄 別パターンを再生成</button>
+        <button class="btn-outline" onclick="document.getElementById('card-step3').scrollIntoView({behavior:'smooth'})">✏️ エピソードを変えて再生成</button>
       </div>
     </div>
   </div>
+
 </div>
 
 <div class="footer">&copy; 2024 <a href="https://spc-jp.github.io/" target="_blank">Smile Plus Consulting</a> ｜ みっけシリーズ ｜ 考えるを、ひとりにしない。</div>
 
+<style>
+.length-btn{flex:1;min-width:90px;padding:10px 8px;border:2px solid var(--border);border-radius:10px;background:var(--white);cursor:pointer;text-align:center;transition:all .2s;font-family:'Noto Sans JP',sans-serif;color:var(--navy);}
+.length-btn.active{border-color:var(--navy);background:var(--navy);color:var(--gold);}
+</style>
+
 <script>
-const WORKER_URL='https://hanbai-mikke-api.yymmatsu.workers.dev';
+const WORKER_URL = 'https://hanbai-mikke-api.yymmatsu.workers.dev';
 
-let selectedLength=1500;
+let selectedLength = 1500;
+let selectedEpisodeType = '';
+let selectedEpisodeText = '';
+let selectedOpeningType = '';
+let episodeCandidates = {};
 
-document.querySelectorAll('.length-btn').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    document.querySelectorAll('.length-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    selectedLength=parseInt(btn.dataset.length);
-  });
-});
-
-function switchTab(name,el){
-  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.output-tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById('tab-'+name).classList.add('active');
-  el.classList.add('active');
-}
-
-function setStep(n){
-  for(let i=1;i<=3;i++){
-    const d=document.getElementById('dot'+i);
-    d.classList.remove('active','done');
-    if(i<n) d.classList.add('done');
-    else if(i===n) d.classList.add('active');
+// ── Step Indicator ──
+function setStep(n) {
+  for (let i = 1; i <= 5; i++) {
+    const d = document.getElementById('dot' + i);
+    d.classList.remove('active', 'done');
+    if (i < n) d.classList.add('done');
+    else if (i === n) d.classList.add('active');
   }
 }
 
-async function analyzeTarget(){
-  const name=document.getElementById('appName').value.trim();
-  const catchCopy=document.getElementById('catchCopy').value.trim();
-  if(!name||!catchCopy){alert('アプリ名・商品名とキャッチコピーは必須です。');return;}
+// ── Tab ──
+function switchTab(name, el) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.output-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  el.classList.add('active');
+}
 
-  document.getElementById('analyzeBtn').disabled=true;
+// ── Length ──
+function selectLength(btn) {
+  document.querySelectorAll('.length-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedLength = parseInt(btn.dataset.length);
+}
+
+// ── STEP1: ターゲット分析 ──
+async function analyzeTarget() {
+  const name = document.getElementById('appName').value.trim();
+  const catchCopy = document.getElementById('catchCopy').value.trim();
+  if (!name || !catchCopy) { alert('アプリ名・商品名とキャッチコピーは必須です。'); return; }
+
+  document.getElementById('analyzeBtn').disabled = true;
   document.getElementById('loadingAnalyze').classList.add('show');
-  document.getElementById('card-step2').classList.add('locked');
-  document.getElementById('card-step3').classList.add('locked');
+  ['card-step2','card-step3','card-step4'].forEach(id => document.getElementById(id).classList.add('locked'));
   document.getElementById('outputSection').classList.remove('show');
   setStep(1);
-  animSteps(['as1','as2','as3']);
+  animSteps(['as1','as2','as3','as4']);
 
-  const price=document.getElementById('price').value.trim();
-  const genre=document.getElementById('genre').value;
+  const price = document.getElementById('price').value.trim();
 
-  const prompt=`以下の商品情報をもとに、noteで売れる記事を書くためのターゲット分析をしてください。
+  const prompt = `以下の商品情報をもとに、noteで売れる記事を書くためのターゲット分析とエピソード候補を生成してください。
 
 【商品情報】
 商品名：${name}
 キャッチコピー：${catchCopy}
-価格帯：${price||'未設定'}
-ジャンル：${genre}
+価格帯：${price || '未設定'}
 
-以下の4項目を【タグ】で区切って生成してください。
+以下の項目を【タグ】で区切って生成してください。
 
 【TARGET】
 ターゲット像（ペルソナ）を具体的に2〜3文で。年代・職業・状況・特徴を含めて。
 
 【PAIN】
-ターゲットが抱える悩み・課題を3つ、各1〜2文で。「〜できない」「〜がうまくいかない」という形で具体的に。
+ターゲットが抱える悩み・課題を3つ、各1〜2文で。「〜できない」「〜がうまくいかない」形で具体的に。
 
 【STRENGTH】
-この商品の訴求ポイント・強みを3つ、各1文で。ターゲットの悩みに対応した形で。
+この商品の訴求ポイント・強みを3つ、各1文で。
 
-【EPISODE】
-この商品を使った後のビフォーアフター想定エピソードを2〜3文で。具体的な変化や感情の変化を含めて。`;
+【EP_FAILURE】
+エピソード候補A「失敗から学んだ話」のテンプレートを2〜3文で。
+「最初は〜がうまくいかなくて、〜を変えたら手応えが出た」という流れで。
 
-  try{
-    const res=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1200,messages:[{role:'user',content:prompt}]})});
-    const data=await res.json();
-    const text=data.content?.[0]?.text||'';
-    const extract=tag=>{const m=text.match(new RegExp(`【${tag}】([\\s\\S]*?)(?=【[A-Z]+】|$)`));return m?m[1].trim():'';};
-    document.getElementById('target').value=extract('TARGET');
-    document.getElementById('pain').value=extract('PAIN');
-    document.getElementById('strength').value=extract('STRENGTH');
-    document.getElementById('episode').value=extract('EPISODE');
-    ['target','pain','strength','episode'].forEach(id=>document.getElementById(id).classList.add('ai-generated'));
+【EP_CUSTOMER】
+エピソード候補B「お客さんが驚いた瞬間の話」のテンプレートを2〜3文で。
+「クライアントや使ってくれた人が驚いた・喜んだ瞬間」の流れで。
+
+【EP_BEFORE_AFTER】
+エピソード候補C「使う前と後で何が変わったか」のテンプレートを2〜3文で。
+「以前は〜だったのが、今は〜になった」という具体的な変化の流れで。`;
+
+  try {
+    const res = await fetch(WORKER_URL, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 1600, messages: [{ role: 'user', content: prompt }] })
+    });
+    const data = await res.json();
+    const text = data.content?.[0]?.text || '';
+
+    const ex = tag => { const m = text.match(new RegExp(`【${tag}】([\\s\\S]*?)(?=【[A-Z_]+】|$)`)); return m ? m[1].trim() : ''; };
+
+    document.getElementById('target').value = ex('TARGET');
+    document.getElementById('pain').value = ex('PAIN');
+    document.getElementById('strength').value = ex('STRENGTH');
+
+    episodeCandidates = {
+      failure: ex('EP_FAILURE'),
+      customer: ex('EP_CUSTOMER'),
+      beforeafter: ex('EP_BEFORE_AFTER')
+    };
+
     document.getElementById('card-step2').classList.remove('locked');
-    document.getElementById('card-step3').classList.remove('locked');
     setStep(2);
-    document.getElementById('card-step2').scrollIntoView({behavior:'smooth',block:'start'});
-  }catch(err){alert('エラーが発生しました。\n'+err.message);}
+    document.getElementById('card-step2').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  } catch(err) { alert('エラーが発生しました。\n' + err.message); }
 
   document.getElementById('loadingAnalyze').classList.remove('show');
-  document.getElementById('analyzeBtn').disabled=false;
+  document.getElementById('analyzeBtn').disabled = false;
 }
 
-async function generate(){
-  const name=document.getElementById('appName').value.trim();
-  const catchCopy=document.getElementById('catchCopy').value.trim();
-  const target=document.getElementById('target').value.trim();
-  const pain=document.getElementById('pain').value.trim();
-  if(!name||!catchCopy||!target||!pain){alert('STEP1・STEP2の必須項目を入力してください。');return;}
+// ── STEP3: エピソードカード表示 ──
+function showEpisodeCards() {
+  const container = document.getElementById('episodeCards');
+  const defs = [
+    { key: 'failure',     label: 'パターンA｜失敗から学んだ話',        title: '「最初はうまくいかなかった」という正直な話', desc: '失敗談は読者との距離を一気に縮めます。完璧な成功話より、つまずいて乗り越えた話のほうが信頼される。' },
+    { key: 'customer',    label: 'パターンB｜お客さんが驚いた瞬間の話', title: '「使ってくれた人が驚いた」という第三者視点の話', desc: '自分で「すごい」と言うより、他者の反応を語るほうが説得力が出る。社会的証明として機能します。' },
+    { key: 'beforeafter', label: 'パターンC｜使う前と後で変わったこと',  title: '「ビフォーアフターで変化を見せる」話', desc: '読者が「自分もこうなれる」とイメージしやすくなる。購入への背中を押す力が一番強いパターン。' }
+  ];
 
-  document.getElementById('generateBtn').disabled=true;
+  container.innerHTML = '';
+  defs.forEach(d => {
+    const card = document.createElement('div');
+    card.className = 'sel-card';
+    card.dataset.key = d.key;
+    card.onclick = () => selectEpisode(card, d.key);
+    card.innerHTML = `
+      <div class="sel-card-label">${d.label}</div>
+      <div class="sel-card-title">${d.title}</div>
+      <div class="sel-card-body">${d.desc}</div>
+      <div class="sel-card-example">${episodeCandidates[d.key] || '（生成中）'}</div>
+    `;
+    container.appendChild(card);
+  });
+
+  document.getElementById('card-step3').classList.remove('locked');
+  setStep(3);
+  document.getElementById('card-step3').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function selectEpisode(card, key) {
+  document.querySelectorAll('#episodeCards .sel-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  selectedEpisodeType = key;
+  selectedEpisodeText = episodeCandidates[key] || '';
+
+  document.getElementById('personalizeBox').style.display = 'block';
+  document.getElementById('toStep4Btn').style.display = 'block';
+}
+
+// ── STEP4: 書き出し選択 ──
+function showOpeningCards() {
+  if (!selectedEpisodeType) { alert('エピソードを選んでください。'); return; }
+  document.getElementById('card-step4').classList.remove('locked');
+  setStep(4);
+  document.getElementById('card-step4').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function selectOpening(card, type) {
+  document.querySelectorAll('#openingCards .sel-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  selectedOpeningType = type;
+}
+
+// ── STEP5: 生成 ──
+async function generate() {
+  const name = document.getElementById('appName').value.trim();
+  const catchCopy = document.getElementById('catchCopy').value.trim();
+  const target = document.getElementById('target').value.trim();
+  const pain = document.getElementById('pain').value.trim();
+  if (!name || !catchCopy || !target || !pain) { alert('STEP1・STEP2の必須項目を入力してください。'); return; }
+  if (!selectedEpisodeType) { alert('STEP3でエピソードを選んでください。'); return; }
+  if (!selectedOpeningType) { alert('STEP4で書き出しパターンを選んでください。'); return; }
+
+  document.getElementById('generateBtn').disabled = true;
   document.getElementById('loadingGenerate').classList.add('show');
   document.getElementById('outputSection').classList.remove('show');
-  setStep(3);
-  animSteps(['gs1','gs2','gs3','gs4']);
+  setStep(5);
+  animSteps(['gs1','gs2','gs3','gs4','gs5']);
 
-  const price=document.getElementById('price').value.trim();
-  const appUrl=document.getElementById('appUrl').value.trim();
-  const strength=document.getElementById('strength').value.trim();
-  const episode=document.getElementById('episode').value.trim();
-  const freeTrial=document.getElementById('freeTrial').value;
-  const genre=document.getElementById('genre').value;
-  const lenLabel=selectedLength===4000?'4000字以上の長文':`約${selectedLength}字`;
+  const price = document.getElementById('price').value.trim();
+  const appUrl = document.getElementById('appUrl').value.trim();
+  const strength = document.getElementById('strength').value.trim();
+  const episodePersonal = document.getElementById('episodePersonal').value.trim();
+  const lenLabel = selectedLength === 4000 ? '4000字以上の長文' : `約${selectedLength}字`;
 
-  const prompt=`以下の情報をもとに、noteで売れる記事とSNS集客7日間プランを生成してください。
+  const openingGuide = {
+    sympathy: '【共感型】「〇〇に悩んでいませんか？」という読者の悩みに刺さる問いかけから始める。読者が「そうそう！」と思う書き出し。',
+    shock:    '【衝撃事実型】知られていない事実・数字・逆説から始める。「実は〇〇の9割が〜」のような読者が「えっ？」と思う書き出し。',
+    story:    '【体験談型】「先日、こんなことがありました」という実体験から始める。書いた人の人柄が伝わり、信頼感を生む書き出し。'
+  };
+
+  const episodeLabel = { failure: '失敗から学んだ話', customer: 'お客さんが驚いた瞬間の話', beforeafter: '使う前と後で変わったこと' };
+
+  const prompt = `以下の情報をもとに、noteで売れる記事とSNS集客7日間プランを生成してください。
 
 【商品情報】
 アプリ名：${name} / キャッチコピー：${catchCopy}
-価格：${price||'未設定'} / URL：${appUrl||'未設定'}
-無料体験：${freeTrial} / ジャンル：${genre}
+価格：${price || '未設定'} / URL：${appUrl || '未設定'}
 
 【ターゲット情報】
 ターゲット：${target}
 悩み：${pain}
-訴求・強み：${strength||'未入力'}
-エピソード：${episode||'未入力'}
+訴求・強み：${strength || '未入力'}
+
+【エピソード（重要：必ずこれを記事に組み込む）】
+種類：${episodeLabel[selectedEpisodeType]}
+AIが生成したベース：${selectedEpisodeText}
+書き手が追加した実体験：${episodePersonal || '（なし）'}
+
+→ AIベースと実体験を自然に組み合わせ、リアルで温かみのあるエピソードとして記事に組み込んでください。
+
+【書き出しパターン】
+${openingGuide[selectedOpeningType]}
+→ 必ずこのパターンで記事を書き出してください。
 
 【出力指定】note記事：${lenLabel}
 
@@ -444,8 +609,11 @@ async function generate(){
 
 ### [NOTE_ARTICLE]
 ${lenLabel}のnote記事を書いてください。
-構成：①共感フック②問題の掘り下げ③転換点④解決策の提示⑤ビフォーアフター⑥証拠・信頼⑦不安解消⑧価格の正当化⑨CTA
-口調：です・ます調。絵文字適度に使用。noteらしく読みやすく。
+・書き出しは上記の指定パターンで始める
+・エピソードを自然に組み込む
+・構成：①書き出し②問題の掘り下げ③転換点④解決策の提示⑤エピソード⑥証拠・信頼⑦不安解消⑧価格の正当化⑨CTA
+・口調：です・ます調。絵文字適度に使用。noteらしく読みやすく。
+・AI文章っぽい無機質な表現を避け、書いた人の人柄が伝わる温かみのある文体で。
 
 ### [SNS_SCHEDULE]
 note公開を起点にしたSNS集客7日間スケジュールを生成してください。
@@ -461,78 +629,87 @@ DAY1|Instagram|（投稿文）#ハッシュタグ
 ### [STRATEGY]
 全体販売戦略メモを300字程度で。note→SNS→決済の流れ、集客のポイント、注意点を含めて。`;
 
-  try{
-    const res=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:4096,messages:[{role:'user',content:prompt}]})});
-    const data=await res.json();
-    const text=data.content?.[0]?.text||'';
-    const noteMatch=text.match(/\[NOTE_ARTICLE\]([\s\S]*?)(?=\[SNS_SCHEDULE\]|\[STRATEGY\]|$)/);
-    const snsMatch=text.match(/\[SNS_SCHEDULE\]([\s\S]*?)(?=\[STRATEGY\]|$)/);
-    const stratMatch=text.match(/\[STRATEGY\]([\s\S]*?)$/);
-    document.getElementById('noteOutput').textContent=noteMatch?noteMatch[1].trim():text;
-    renderSNS(snsMatch?snsMatch[1].trim():'');
-    document.getElementById('strategyOutput').textContent=stratMatch?stratMatch[1].trim():'';
+  try {
+    const res = await fetch(WORKER_URL, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 4096, messages: [{ role: 'user', content: prompt }] })
+    });
+    const data = await res.json();
+    const text = data.content?.[0]?.text || '';
+
+    const noteMatch  = text.match(/\[NOTE_ARTICLE\]([\s\S]*?)(?=\[SNS_SCHEDULE\]|\[STRATEGY\]|$)/);
+    const snsMatch   = text.match(/\[SNS_SCHEDULE\]([\s\S]*?)(?=\[STRATEGY\]|$)/);
+    const stratMatch = text.match(/\[STRATEGY\]([\s\S]*?)$/);
+
+    document.getElementById('noteOutput').textContent  = noteMatch  ? noteMatch[1].trim()  : text;
+    renderSNS(snsMatch ? snsMatch[1].trim() : '');
+    document.getElementById('strategyOutput').textContent = stratMatch ? stratMatch[1].trim() : '';
+
     document.getElementById('loadingGenerate').classList.remove('show');
     document.getElementById('outputSection').classList.add('show');
-    document.getElementById('outputSection').scrollIntoView({behavior:'smooth',block:'start'});
-  }catch(err){
+    document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  } catch(err) {
     document.getElementById('loadingGenerate').classList.remove('show');
-    alert('エラーが発生しました。\n'+err.message);
+    alert('エラーが発生しました。\n' + err.message);
   }
-  document.getElementById('generateBtn').disabled=false;
+  document.getElementById('generateBtn').disabled = false;
 }
 
-function renderSNS(raw){
-  const container=document.getElementById('snsOutput');
-  container.innerHTML='';
-  const days={};
-  raw.split('\n').filter(l=>l.trim()).forEach(line=>{
-    const parts=line.split('|');
-    if(parts.length>=3){
-      const day=parts[0].trim().toUpperCase();
-      const platform=parts[1].trim().toUpperCase();
-      const content=parts.slice(2).join('|').trim();
-      if(!days[day])days[day]=[];
-      days[day].push({platform,content});
+// ── SNSレンダリング ──
+function renderSNS(raw) {
+  const container = document.getElementById('snsOutput');
+  container.innerHTML = '';
+  const days = {};
+  raw.split('\n').filter(l => l.trim()).forEach(line => {
+    const parts = line.split('|');
+    if (parts.length >= 3) {
+      const day = parts[0].trim().toUpperCase();
+      const platform = parts[1].trim().toUpperCase();
+      const content = parts.slice(2).join('|').trim();
+      if (!days[day]) days[day] = [];
+      days[day].push({ platform, content });
     }
   });
-  if(Object.keys(days).length===0){container.innerHTML=`<div class="output-box" style="white-space:pre-wrap;">${raw}</div>`;return;}
-  const labels={DAY0:'公開当日',DAY1:'1日後',DAY2:'2日後',DAY3:'3日後',DAY4:'4日後',DAY5:'5日後',DAY6:'6日後',DAY7:'7日後（最終）'};
-  Object.keys(days).sort().forEach(day=>{
-    const wrap=document.createElement('div');wrap.className='sns-day';
-    wrap.innerHTML=`<div class="sns-day-header"><span class="day-badge">${day}</span>${labels[day]||day}</div>`;
-    const posts=document.createElement('div');posts.className='sns-posts';
-    days[day].forEach(post=>{
-      const isX=post.platform==='X'||post.platform==='TWITTER';
-      const isT=post.platform.includes('THREAD');
-      const isFB=post.platform.includes('FB')||post.platform.includes('FACE');
-      const cls=isX?'x-post':isT?'threads-post':isFB?'fb-post':'ig-post';
-      const lCls=isX?'x-label':isT?'threads-label':isFB?'fb-label':'ig-label';
-      const lTxt=isX?'X':isT?'Threads':isFB?'Facebook':'Instagram';
-      const p=document.createElement('div');p.className=`sns-post ${cls}`;
-      p.innerHTML=`<span class="sns-label ${lCls}">${lTxt}</span><div class="sns-text">${esc(post.content)}</div><button class="copy-btn" style="font-size:11px;padding:5px 10px;flex-shrink:0;" onclick="copyStr(this,${JSON.stringify(post.content)})">📋</button>`;
+  if (Object.keys(days).length === 0) { container.innerHTML = `<div class="output-box" style="white-space:pre-wrap;">${raw}</div>`; return; }
+
+  const labels = { DAY0:'公開当日', DAY1:'1日後', DAY2:'2日後', DAY3:'3日後', DAY4:'4日後', DAY5:'5日後', DAY6:'6日後', DAY7:'7日後（最終）' };
+  Object.keys(days).sort().forEach(day => {
+    const wrap = document.createElement('div'); wrap.className = 'sns-day';
+    wrap.innerHTML = `<div class="sns-day-header"><span class="day-badge">${day}</span>${labels[day] || day}</div>`;
+    const posts = document.createElement('div'); posts.className = 'sns-posts';
+    days[day].forEach(post => {
+      const isX  = post.platform === 'X' || post.platform === 'TWITTER';
+      const isT  = post.platform.includes('THREAD');
+      const isFB = post.platform.includes('FB') || post.platform.includes('FACE');
+      const cls  = isX ? 'x-post' : isT ? 'threads-post' : isFB ? 'fb-post' : 'ig-post';
+      const lCls = isX ? 'x-label' : isT ? 'threads-label' : isFB ? 'fb-label' : 'ig-label';
+      const lTxt = isX ? 'X' : isT ? 'Threads' : isFB ? 'Facebook' : 'Instagram';
+      const p = document.createElement('div'); p.className = `sns-post ${cls}`;
+      p.innerHTML = `<span class="sns-label ${lCls}">${lTxt}</span><div class="sns-text">${esc(post.content)}</div><button class="copy-btn" style="font-size:11px;padding:5px 10px;flex-shrink:0;" onclick="copyStr(this,${JSON.stringify(post.content)})">📋</button>`;
       posts.appendChild(p);
     });
-    wrap.appendChild(posts);container.appendChild(wrap);
+    wrap.appendChild(posts); container.appendChild(wrap);
   });
 }
 
-function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function copyText(id,btn){
-  navigator.clipboard.writeText(document.getElementById(id).textContent).then(()=>{
-    const orig=btn.textContent;btn.classList.add('copied');btn.textContent='✅ コピーしました';
-    setTimeout(()=>{btn.classList.remove('copied');btn.textContent=orig;},2000);
+function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function copyText(id, btn) {
+  navigator.clipboard.writeText(document.getElementById(id).textContent).then(() => {
+    const orig = btn.textContent; btn.classList.add('copied'); btn.textContent = '✅ コピーしました';
+    setTimeout(() => { btn.classList.remove('copied'); btn.textContent = orig; }, 2000);
   });
 }
-function copyStr(btn,str){
-  navigator.clipboard.writeText(str).then(()=>{
-    const orig=btn.textContent;btn.textContent='✅';btn.classList.add('copied');
-    setTimeout(()=>{btn.textContent=orig;btn.classList.remove('copied');},1500);
+function copyStr(btn, str) {
+  navigator.clipboard.writeText(str).then(() => {
+    const orig = btn.textContent; btn.textContent = '✅'; btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
   });
 }
-function animSteps(ids){
-  ids.forEach((s,i)=>{
+function animSteps(ids) {
+  ids.forEach((s, i) => {
     document.getElementById(s).classList.remove('active');
-    setTimeout(()=>document.getElementById(s).classList.add('active'),i*900);
+    setTimeout(() => document.getElementById(s).classList.add('active'), i * 800);
   });
 }
 </script>
