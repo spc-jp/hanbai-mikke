@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>販売みっけ｜noteで売れる記事＋SNS集客プランを一括生成</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap');
+  :root {
+    --navy:#223670;--navy-dark:#16254d;--navy-light:#2d4a99;
+    --gold:#D0A900;--gold-light:#f0c800;--gold-pale:#fff8d6;
+    --bg:#f4f6fb;--white:#ffffff;--text:#1a1f2e;--muted:#6b7280;
+    --border:#dde3f0;--success:#16a34a;--note-orange:#e85d04;
+    --x-black:#14171a;--threads-dark:#1a1a1a;--fb-blue:#1877f2;--ig-pink:#c13584;
+    --radius:12px;--radius-lg:18px;
+    --shadow:0 4px 20px rgba(34,54,112,0.10);--shadow-lg:0 8px 40px rgba(34,54,112,0.16);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+  .header{background:linear-gradient(135deg,var(--navy-dark) 0%,var(--navy) 60%,var(--navy-light) 100%);padding:28px 24px 24px;text-align:center;position:relative;overflow:hidden;}
+  .header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 20%,rgba(208,169,0,0.18) 0%,transparent 60%);}
+  .header-badge{display:inline-block;background:var(--gold);color:var(--navy-dark);font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px;letter-spacing:.05em;margin-bottom:10px;position:relative;}
+  .header h1{font-family:'Zen Kaku Gothic New',sans-serif;font-size:clamp(26px,6vw,38px);font-weight:900;color:var(--white);letter-spacing:-.02em;line-height:1.1;position:relative;}
+  .header h1 span{color:var(--gold);}
+  .header-sub{color:rgba(255,255,255,.75);font-size:13px;margin-top:8px;position:relative;}
+  .container{max-width:800px;margin:0 auto;padding:24px 16px 60px;}
+
+  /* Step Indicator */
+  .step-indicator{display:flex;align-items:center;margin-bottom:24px;background:var(--white);border-radius:var(--radius);padding:14px 20px;box-shadow:var(--shadow);}
+  .step-dot{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;position:relative;}
+  .step-dot:not(:last-child)::after{content:'';position:absolute;top:16px;left:calc(50% + 16px);width:calc(100% - 32px);height:2px;background:var(--border);transition:background .4s;}
+  .step-dot.done:not(:last-child)::after{background:var(--gold);}
+  .step-num{width:32px;height:32px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:var(--muted);background:var(--bg);transition:all .3s;position:relative;z-index:1;}
+  .step-dot.active .step-num{border-color:var(--navy);background:var(--navy);color:white;}
+  .step-dot.done .step-num{border-color:var(--gold);background:var(--gold);color:var(--navy-dark);}
+  .step-label{font-size:11px;color:var(--muted);font-weight:700;text-align:center;}
+  .step-dot.active .step-label{color:var(--navy);}
+  .step-dot.done .step-label{color:var(--gold);}
+
+  /* Card */
+  .card{background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:24px;margin-bottom:20px;transition:opacity .3s,filter .3s;}
+  .card.locked{opacity:.4;pointer-events:none;filter:grayscale(.3);}
+  .card-title{font-family:'Zen Kaku Gothic New',sans-serif;font-size:16px;font-weight:900;color:var(--navy);margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--border);display:flex;align-items:center;gap:8px;}
+  .card-title .icon{width:28px;height:28px;background:var(--navy);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+  .step-tag{margin-left:auto;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:.05em;}
+  .step-tag.s1{background:var(--navy);color:white;}
+  .step-tag.s2{background:var(--gold);color:var(--navy-dark);}
+  .step-tag.s3{background:var(--note-orange);color:white;}
+
+  /* Form */
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .form-grid .full{grid-column:1/-1;}
+  .field label{display:block;font-size:12px;font-weight:700;color:var(--navy);margin-bottom:5px;letter-spacing:.03em;}
+  .field label .req{color:var(--note-orange);margin-left:3px;}
+  .field input,.field select,.field textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;font-family:'Noto Sans JP',sans-serif;font-size:14px;color:var(--text);background:var(--white);transition:border-color .2s,box-shadow .2s;outline:none;}
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(34,54,112,.10);}
+  .field textarea{resize:vertical;min-height:80px;}
+  .field input::placeholder,.field textarea::placeholder{color:#b0b8cc;}
+  .ai-generated{border-color:var(--gold)!important;background:var(--gold-pale)!important;}
+  .ai-label{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;color:var(--gold);background:var(--navy-dark);padding:2px 8px;border-radius:20px;margin-bottom:5px;}
+
+  /* Buttons */
+  .analyze-btn{width:100%;padding:18px;background:linear-gradient(135deg,var(--gold) 0%,var(--gold-light) 100%);color:var(--navy-dark);border:none;border-radius:var(--radius);font-family:'Zen Kaku Gothic New',sans-serif;font-size:18px;font-weight:900;cursor:pointer;transition:all .2s;letter-spacing:.03em;}
+  .analyze-btn:hover{transform:translateY(-1px);box-shadow:var(--shadow-lg);}
+  .analyze-btn:active{transform:translateY(0);}
+  .analyze-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+  .generate-btn{width:100%;padding:18px;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);color:var(--white);border:none;border-radius:var(--radius);font-family:'Zen Kaku Gothic New',sans-serif;font-size:18px;font-weight:900;cursor:pointer;transition:all .2s;letter-spacing:.03em;}
+  .generate-btn:hover{transform:translateY(-1px);box-shadow:var(--shadow-lg);}
+  .generate-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+  .btn-sub{display:block;font-size:12px;font-weight:400;opacity:.8;margin-top:3px;font-family:'Noto Sans JP',sans-serif;}
+
+  /* Length */
+  .length-selector{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;}
+  .length-btn{flex:1;min-width:90px;padding:10px 8px;border:2px solid var(--border);border-radius:10px;background:var(--white);cursor:pointer;text-align:center;transition:all .2s;font-family:'Noto Sans JP',sans-serif;}
+  .length-btn .len-num{display:block;font-size:18px;font-weight:900;color:var(--navy);font-family:'Zen Kaku Gothic New',sans-serif;}
+  .length-btn .len-desc{display:block;font-size:10px;color:var(--muted);margin-top:2px;}
+  .length-btn.active{border-color:var(--navy);background:var(--navy);}
+  .length-btn.active .len-num{color:var(--gold);}
+  .length-btn.active .len-desc{color:rgba(255,255,255,.75);}
+
+  /* Loading */
+  .loading-wrap{display:none;text-align:center;padding:40px 20px;}
+  .loading-wrap.show{display:block;}
+  .spinner{width:48px;height:48px;border:4px solid var(--border);border-top-color:var(--navy);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .loading-label{font-weight:700;color:var(--navy);margin-bottom:8px;font-size:15px;}
+  .loading-step{margin:4px 0;opacity:.4;transition:opacity .3s;font-size:13px;color:var(--muted);}
+  .loading-step.active{opacity:1;color:var(--navy);font-weight:700;}
+
+  /* Output */
+  .output-section{display:none;}
+  .output-section.show{display:block;}
+  .output-tabs{display:flex;gap:6px;margin-bottom:16px;background:var(--bg);padding:6px;border-radius:var(--radius);}
+  .output-tab{flex:1;padding:10px 8px;border:none;border-radius:8px;background:transparent;font-family:'Noto Sans JP',sans-serif;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;transition:all .2s;text-align:center;}
+  .output-tab.active{background:var(--white);color:var(--navy);box-shadow:var(--shadow);}
+  .tab-icon{display:block;font-size:18px;margin-bottom:2px;}
+  .tab-content{display:none;}
+  .tab-content.active{display:block;}
+  .output-box{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius);padding:20px;font-size:14px;line-height:1.85;white-space:pre-wrap;word-break:break-all;min-height:200px;color:var(--text);}
+  .output-box.note-style{background:#fff9f0;border-color:#ffd8a0;}
+
+  /* SNS */
+  .sns-day{margin-bottom:16px;border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+  .sns-day-header{padding:10px 16px;background:var(--navy);color:var(--white);font-weight:700;font-size:14px;display:flex;align-items:center;gap:8px;}
+  .day-badge{background:var(--gold);color:var(--navy-dark);font-size:11px;padding:2px 8px;border-radius:20px;font-weight:900;}
+  .sns-posts{padding:12px;background:var(--white);}
+  .sns-post{display:flex;gap:10px;padding:10px;border-radius:8px;margin-bottom:8px;align-items:flex-start;}
+  .sns-post:last-child{margin-bottom:0;}
+  .sns-post.x-post{background:#f5f8fa;border-left:3px solid var(--x-black);}
+  .sns-post.threads-post{background:#f5f5f5;border-left:3px solid var(--threads-dark);}
+  .sns-post.fb-post{background:#f0f4ff;border-left:3px solid var(--fb-blue);}
+  .sns-post.ig-post{background:#fdf0f8;border-left:3px solid var(--ig-pink);}
+  .sns-label{font-size:10px;font-weight:900;padding:2px 6px;border-radius:4px;flex-shrink:0;margin-top:2px;white-space:nowrap;}
+  .x-label{background:var(--x-black);color:white;}
+  .threads-label{background:var(--threads-dark);color:white;}
+  .fb-label{background:var(--fb-blue);color:white;}
+  .ig-label{background:var(--ig-pink);color:white;}
+  .sns-text{font-size:13px;line-height:1.7;flex:1;white-space:pre-wrap;word-break:break-all;}
+  .copy-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--navy);color:var(--white);border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;font-family:'Noto Sans JP',sans-serif;}
+  .copy-btn:hover{background:var(--navy-light);}
+  .copy-btn.copied{background:var(--success);}
+  .copy-bar{display:flex;justify-content:flex-end;margin-top:12px;gap:8px;}
+  .regen-bar{display:flex;gap:10px;margin-top:16px;padding-top:16px;border-top:1.5px solid var(--border);}
+  .regen-btn{flex:1;padding:12px;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius);font-family:'Noto Sans JP',sans-serif;font-size:13px;font-weight:700;color:var(--navy);cursor:pointer;transition:all .2s;text-align:center;}
+  .regen-btn:hover{border-color:var(--navy);background:var(--gold-pale);}
+
+  .footer{text-align:center;padding:20px;font-size:11px;color:var(--muted);}
+  .footer a{color:var(--navy);text-decoration:none;}
+  @media(max-width:560px){.form-grid{grid-template-columns:1fr;}.form-grid .full{grid-column:1;}.output-tabs{flex-wrap:wrap;}.step-label{font-size:9px;}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-badge">みっけシリーズ</div>
+  <h1>販売<span>みっけ</span> 🎯</h1>
+  <p class="header-sub">商品名を入れるだけ → ターゲット分析 → note記事＋SNS集客プランを一括生成</p>
+</div>
+
+<div class="container">
+
+  <!-- Step Indicator -->
+  <div class="step-indicator">
+    <div class="step-dot active" id="dot1">
+      <div class="step-num">1</div>
+      <div class="step-label">商品情報を入力</div>
+    </div>
+    <div class="step-dot" id="dot2">
+      <div class="step-num">2</div>
+      <div class="step-label">ターゲットを確認</div>
+    </div>
+    <div class="step-dot" id="dot3">
+      <div class="step-num">3</div>
+      <div class="step-label">記事＋SNSを生成</div>
+    </div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="card" id="card-step1">
+    <div class="card-title">
+      <div class="icon">📦</div>商品・サービス情報
+      <span class="step-tag s1">STEP 1</span>
+    </div>
+    <div class="form-grid">
+      <div class="field">
+        <label>アプリ名・商品名<span class="req">*</span></label>
+        <input type="text" id="appName" placeholder="例：販売みっけ">
+      </div>
+      <div class="field">
+        <label>価格帯</label>
+        <input type="text" id="price" placeholder="例：月額2,980円（3回無料）">
+      </div>
+      <div class="field full">
+        <label>キャッチコピー<span class="req">*</span></label>
+        <input type="text" id="catchCopy" placeholder="例：noteで売れる記事＋SNS集客プランを一括生成">
+      </div>
+      <div class="field full">
+        <label>アプリURL・サービスURL</label>
+        <input type="text" id="appUrl" placeholder="例：https://spc-jp.github.io/hanbai-mikke/">
+      </div>
+      <div class="field">
+        <label>ジャンル</label>
+        <select id="genre">
+          <option value="AIツール・Web集客">AIツール・Web集客</option>
+          <option value="コンテンツ販売">コンテンツ販売</option>
+          <option value="業務効率化ツール">業務効率化ツール</option>
+          <option value="士業・専門家向け">士業・専門家向け</option>
+          <option value="飲食・店舗向け">飲食・店舗向け</option>
+          <option value="美容・サロン向け">美容・サロン向け</option>
+          <option value="製造業向け">製造業向け</option>
+          <option value="不動産・リフォーム">不動産・リフォーム</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>無料体験</label>
+        <select id="freeTrial">
+          <option value="あり（3回無料）">あり（3回無料）</option>
+          <option value="あり（7日間無料）">あり（7日間無料）</option>
+          <option value="デモ動画あり">デモ動画あり</option>
+          <option value="なし">なし</option>
+        </select>
+      </div>
+    </div>
+    <div style="margin-top:20px;">
+      <button class="analyze-btn" id="analyzeBtn" onclick="analyzeTarget()">
+        🔍 ターゲット＆訴求ポイントをAIが分析する
+        <span class="btn-sub">商品情報をもとにAIがペルソナ・悩み・強みを自動生成します</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading 1 -->
+  <div class="loading-wrap" id="loadingAnalyze">
+    <div class="spinner"></div>
+    <div class="loading-label">ターゲットを分析中...</div>
+    <div class="loading-step active" id="as1">🎯 ターゲット像を構築中...</div>
+    <div class="loading-step" id="as2">💬 悩み・訴求ポイントを言語化中...</div>
+    <div class="loading-step" id="as3">✨ 仕上げ中...</div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="card locked" id="card-step2">
+    <div class="card-title">
+      <div class="icon">🎯</div>ターゲット＆訴求ポイント
+      <span class="step-tag s2">STEP 2 ✨AI生成</span>
+    </div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6;">AIが分析した内容です。確認・修正してから次へ進んでください。</p>
+    <div class="form-grid">
+      <div class="field full">
+        <div class="ai-label">✨ AI生成</div>
+        <label>ターゲット像（ペルソナ）</label>
+        <textarea id="target" rows="3" placeholder="AIが自動生成します"></textarea>
+      </div>
+      <div class="field full">
+        <div class="ai-label">✨ AI生成</div>
+        <label>ターゲットの悩み・キーワード</label>
+        <textarea id="pain" rows="4" placeholder="AIが自動生成します"></textarea>
+      </div>
+      <div class="field full">
+        <div class="ai-label">✨ AI生成</div>
+        <label>訴求ポイント・強み</label>
+        <textarea id="strength" rows="3" placeholder="AIが自動生成します"></textarea>
+      </div>
+      <div class="field full">
+        <div class="ai-label">✨ AI生成</div>
+        <label>想定エピソード・事例</label>
+        <textarea id="episode" rows="3" placeholder="AIが自動生成します"></textarea>
+      </div>
+    </div>
+    <div class="regen-bar">
+      <button class="regen-btn" onclick="analyzeTarget()">🔄 ターゲットを再生成する</button>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="card locked" id="card-step3">
+    <div class="card-title">
+      <div class="icon">📝</div>note記事の文字数を選ぶ
+      <span class="step-tag s3">STEP 3</span>
+    </div>
+    <div class="length-selector">
+      <button class="length-btn active" data-length="1500">
+        <span class="len-num">1,500字</span>
+        <span class="len-desc">X・Threads流入向け</span>
+      </button>
+      <button class="length-btn" data-length="2500">
+        <span class="len-num">2,500字</span>
+        <span class="len-desc">note内SEO・検索流入向け</span>
+      </button>
+      <button class="length-btn" data-length="4000">
+        <span class="len-num">長文4,000字+</span>
+        <span class="len-desc">LINE・メルマガ誘導向け</span>
+      </button>
+    </div>
+    <button class="generate-btn" id="generateBtn" onclick="generate()">
+      ✨ note記事 ＋ SNS集客プランを生成する
+      <span class="btn-sub">入力した情報をもとにAIが売れる構成で自動生成します</span>
+    </button>
+  </div>
+
+  <!-- Loading 2 -->
+  <div class="loading-wrap" id="loadingGenerate">
+    <div class="spinner"></div>
+    <div class="loading-label">生成中...</div>
+    <div class="loading-step active" id="gs1">📝 売れるnote記事を構成中...</div>
+    <div class="loading-step" id="gs2">📣 SNS集客7日間プランを設計中...</div>
+    <div class="loading-step" id="gs3">🗺️ 全体戦略をまとめ中...</div>
+    <div class="loading-step" id="gs4">✨ 仕上げ中...</div>
+  </div>
+
+  <!-- Output -->
+  <div class="output-section" id="outputSection">
+    <div class="card">
+      <div class="output-tabs">
+        <button class="output-tab active" onclick="switchTab('note',this)"><span class="tab-icon">📝</span>note記事</button>
+        <button class="output-tab" onclick="switchTab('sns',this)"><span class="tab-icon">📣</span>SNS集客プラン</button>
+        <button class="output-tab" onclick="switchTab('strategy',this)"><span class="tab-icon">🗺️</span>全体戦略</button>
+      </div>
+      <div class="tab-content active" id="tab-note">
+        <div class="output-box note-style" id="noteOutput"></div>
+        <div class="copy-bar"><button class="copy-btn" onclick="copyText('noteOutput',this)">📋 note記事をコピー</button></div>
+      </div>
+      <div class="tab-content" id="tab-sns"><div id="snsOutput"></div></div>
+      <div class="tab-content" id="tab-strategy">
+        <div class="output-box" id="strategyOutput"></div>
+        <div class="copy-bar"><button class="copy-btn" onclick="copyText('strategyOutput',this)">📋 戦略メモをコピー</button></div>
+      </div>
+      <div class="regen-bar">
+        <button class="regen-btn" onclick="generate()">🔄 別パターンを再生成</button>
+        <button class="regen-btn" onclick="document.getElementById('card-step1').scrollIntoView({behavior:'smooth'})">✏️ 内容を修正して再生成</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">&copy; 2024 <a href="https://spc-jp.github.io/" target="_blank">Smile Plus Consulting</a> ｜ みっけシリーズ ｜ 考えるを、ひとりにしない。</div>
+
+<script>
+const WORKER_URL='https://hanbai-mikke-api.yymmatsu.workers.dev';
+
+let selectedLength=1500;
+
+document.querySelectorAll('.length-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.length-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedLength=parseInt(btn.dataset.length);
+  });
+});
+
+function switchTab(name,el){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.output-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  el.classList.add('active');
+}
+
+function setStep(n){
+  for(let i=1;i<=3;i++){
+    const d=document.getElementById('dot'+i);
+    d.classList.remove('active','done');
+    if(i<n) d.classList.add('done');
+    else if(i===n) d.classList.add('active');
+  }
+}
+
+async function analyzeTarget(){
+  const name=document.getElementById('appName').value.trim();
+  const catchCopy=document.getElementById('catchCopy').value.trim();
+  if(!name||!catchCopy){alert('アプリ名・商品名とキャッチコピーは必須です。');return;}
+
+  document.getElementById('analyzeBtn').disabled=true;
+  document.getElementById('loadingAnalyze').classList.add('show');
+  document.getElementById('card-step2').classList.add('locked');
+  document.getElementById('card-step3').classList.add('locked');
+  document.getElementById('outputSection').classList.remove('show');
+  setStep(1);
+  animSteps(['as1','as2','as3']);
+
+  const price=document.getElementById('price').value.trim();
+  const genre=document.getElementById('genre').value;
+
+  const prompt=`以下の商品情報をもとに、noteで売れる記事を書くためのターゲット分析をしてください。
+
+【商品情報】
+商品名：${name}
+キャッチコピー：${catchCopy}
+価格帯：${price||'未設定'}
+ジャンル：${genre}
+
+以下の4項目を【タグ】で区切って生成してください。
+
+【TARGET】
+ターゲット像（ペルソナ）を具体的に2〜3文で。年代・職業・状況・特徴を含めて。
+
+【PAIN】
+ターゲットが抱える悩み・課題を3つ、各1〜2文で。「〜できない」「〜がうまくいかない」という形で具体的に。
+
+【STRENGTH】
+この商品の訴求ポイント・強みを3つ、各1文で。ターゲットの悩みに対応した形で。
+
+【EPISODE】
+この商品を使った後のビフォーアフター想定エピソードを2〜3文で。具体的な変化や感情の変化を含めて。`;
+
+  try{
+    const res=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1200,messages:[{role:'user',content:prompt}]})});
+    const data=await res.json();
+    const text=data.content?.[0]?.text||'';
+    const extract=tag=>{const m=text.match(new RegExp(`【${tag}】([\\s\\S]*?)(?=【[A-Z]+】|$)`));return m?m[1].trim():'';};
+    document.getElementById('target').value=extract('TARGET');
+    document.getElementById('pain').value=extract('PAIN');
+    document.getElementById('strength').value=extract('STRENGTH');
+    document.getElementById('episode').value=extract('EPISODE');
+    ['target','pain','strength','episode'].forEach(id=>document.getElementById(id).classList.add('ai-generated'));
+    document.getElementById('card-step2').classList.remove('locked');
+    document.getElementById('card-step3').classList.remove('locked');
+    setStep(2);
+    document.getElementById('card-step2').scrollIntoView({behavior:'smooth',block:'start'});
+  }catch(err){alert('エラーが発生しました。\n'+err.message);}
+
+  document.getElementById('loadingAnalyze').classList.remove('show');
+  document.getElementById('analyzeBtn').disabled=false;
+}
+
+async function generate(){
+  const name=document.getElementById('appName').value.trim();
+  const catchCopy=document.getElementById('catchCopy').value.trim();
+  const target=document.getElementById('target').value.trim();
+  const pain=document.getElementById('pain').value.trim();
+  if(!name||!catchCopy||!target||!pain){alert('STEP1・STEP2の必須項目を入力してください。');return;}
+
+  document.getElementById('generateBtn').disabled=true;
+  document.getElementById('loadingGenerate').classList.add('show');
+  document.getElementById('outputSection').classList.remove('show');
+  setStep(3);
+  animSteps(['gs1','gs2','gs3','gs4']);
+
+  const price=document.getElementById('price').value.trim();
+  const appUrl=document.getElementById('appUrl').value.trim();
+  const strength=document.getElementById('strength').value.trim();
+  const episode=document.getElementById('episode').value.trim();
+  const freeTrial=document.getElementById('freeTrial').value;
+  const genre=document.getElementById('genre').value;
+  const lenLabel=selectedLength===4000?'4000字以上の長文':`約${selectedLength}字`;
+
+  const prompt=`以下の情報をもとに、noteで売れる記事とSNS集客7日間プランを生成してください。
+
+【商品情報】
+アプリ名：${name} / キャッチコピー：${catchCopy}
+価格：${price||'未設定'} / URL：${appUrl||'未設定'}
+無料体験：${freeTrial} / ジャンル：${genre}
+
+【ターゲット情報】
+ターゲット：${target}
+悩み：${pain}
+訴求・強み：${strength||'未入力'}
+エピソード：${episode||'未入力'}
+
+【出力指定】note記事：${lenLabel}
+
+---
+
+以下3つを順番に出力してください。
+
+### [NOTE_ARTICLE]
+${lenLabel}のnote記事を書いてください。
+構成：①共感フック②問題の掘り下げ③転換点④解決策の提示⑤ビフォーアフター⑥証拠・信頼⑦不安解消⑧価格の正当化⑨CTA
+口調：です・ます調。絵文字適度に使用。noteらしく読みやすく。
+
+### [SNS_SCHEDULE]
+note公開を起点にしたSNS集客7日間スケジュールを生成してください。
+各日2〜3媒体の実際に使える投稿文を生成してください。
+・X：140字以内 ・Threads：200字前後 ・Facebook：300字前後 ・Instagram：ハッシュタグ5〜8個付き
+
+フォーマット（厳守）：
+DAY0|X|（投稿文）
+DAY0|Threads|（投稿文）
+DAY1|Instagram|（投稿文）#ハッシュタグ
+（以下同様、Day0〜Day7）
+
+### [STRATEGY]
+全体販売戦略メモを300字程度で。note→SNS→決済の流れ、集客のポイント、注意点を含めて。`;
+
+  try{
+    const res=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:4096,messages:[{role:'user',content:prompt}]})});
+    const data=await res.json();
+    const text=data.content?.[0]?.text||'';
+    const noteMatch=text.match(/\[NOTE_ARTICLE\]([\s\S]*?)(?=\[SNS_SCHEDULE\]|\[STRATEGY\]|$)/);
+    const snsMatch=text.match(/\[SNS_SCHEDULE\]([\s\S]*?)(?=\[STRATEGY\]|$)/);
+    const stratMatch=text.match(/\[STRATEGY\]([\s\S]*?)$/);
+    document.getElementById('noteOutput').textContent=noteMatch?noteMatch[1].trim():text;
+    renderSNS(snsMatch?snsMatch[1].trim():'');
+    document.getElementById('strategyOutput').textContent=stratMatch?stratMatch[1].trim():'';
+    document.getElementById('loadingGenerate').classList.remove('show');
+    document.getElementById('outputSection').classList.add('show');
+    document.getElementById('outputSection').scrollIntoView({behavior:'smooth',block:'start'});
+  }catch(err){
+    document.getElementById('loadingGenerate').classList.remove('show');
+    alert('エラーが発生しました。\n'+err.message);
+  }
+  document.getElementById('generateBtn').disabled=false;
+}
+
+function renderSNS(raw){
+  const container=document.getElementById('snsOutput');
+  container.innerHTML='';
+  const days={};
+  raw.split('\n').filter(l=>l.trim()).forEach(line=>{
+    const parts=line.split('|');
+    if(parts.length>=3){
+      const day=parts[0].trim().toUpperCase();
+      const platform=parts[1].trim().toUpperCase();
+      const content=parts.slice(2).join('|').trim();
+      if(!days[day])days[day]=[];
+      days[day].push({platform,content});
+    }
+  });
+  if(Object.keys(days).length===0){container.innerHTML=`<div class="output-box" style="white-space:pre-wrap;">${raw}</div>`;return;}
+  const labels={DAY0:'公開当日',DAY1:'1日後',DAY2:'2日後',DAY3:'3日後',DAY4:'4日後',DAY5:'5日後',DAY6:'6日後',DAY7:'7日後（最終）'};
+  Object.keys(days).sort().forEach(day=>{
+    const wrap=document.createElement('div');wrap.className='sns-day';
+    wrap.innerHTML=`<div class="sns-day-header"><span class="day-badge">${day}</span>${labels[day]||day}</div>`;
+    const posts=document.createElement('div');posts.className='sns-posts';
+    days[day].forEach(post=>{
+      const isX=post.platform==='X'||post.platform==='TWITTER';
+      const isT=post.platform.includes('THREAD');
+      const isFB=post.platform.includes('FB')||post.platform.includes('FACE');
+      const cls=isX?'x-post':isT?'threads-post':isFB?'fb-post':'ig-post';
+      const lCls=isX?'x-label':isT?'threads-label':isFB?'fb-label':'ig-label';
+      const lTxt=isX?'X':isT?'Threads':isFB?'Facebook':'Instagram';
+      const p=document.createElement('div');p.className=`sns-post ${cls}`;
+      p.innerHTML=`<span class="sns-label ${lCls}">${lTxt}</span><div class="sns-text">${esc(post.content)}</div><button class="copy-btn" style="font-size:11px;padding:5px 10px;flex-shrink:0;" onclick="copyStr(this,${JSON.stringify(post.content)})">📋</button>`;
+      posts.appendChild(p);
+    });
+    wrap.appendChild(posts);container.appendChild(wrap);
+  });
+}
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function copyText(id,btn){
+  navigator.clipboard.writeText(document.getElementById(id).textContent).then(()=>{
+    const orig=btn.textContent;btn.classList.add('copied');btn.textContent='✅ コピーしました';
+    setTimeout(()=>{btn.classList.remove('copied');btn.textContent=orig;},2000);
+  });
+}
+function copyStr(btn,str){
+  navigator.clipboard.writeText(str).then(()=>{
+    const orig=btn.textContent;btn.textContent='✅';btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent=orig;btn.classList.remove('copied');},1500);
+  });
+}
+function animSteps(ids){
+  ids.forEach((s,i)=>{
+    document.getElementById(s).classList.remove('active');
+    setTimeout(()=>document.getElementById(s).classList.add('active'),i*900);
+  });
+}
+</script>
+</body>
+</html>
