@@ -208,9 +208,13 @@
         <label>キャッチコピー<span class="req">*</span></label>
         <input type="text" id="catchCopy" placeholder="例：noteで売れる記事＋SNS集客プランを一括生成">
       </div>
-      <div class="field full">
+      <div class="field">
         <label>アプリURL・サービスURL</label>
         <input type="text" id="appUrl" placeholder="例：https://spc-jp.github.io/hanbai-mikke/">
+      </div>
+      <div class="field">
+        <label>Stripe決済URL</label>
+        <input type="text" id="stripeUrl" placeholder="例：https://buy.stripe.com/xxxxxxxx">
       </div>
     </div>
     <div style="margin-top:20px;">
@@ -492,7 +496,12 @@ async function analyzeTarget() {
     setStep(2);
     document.getElementById('card-step2').scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-  } catch(err) { alert('エラーが発生しました。\n' + err.message); }
+  } catch(err) {
+    const msg = err.message.includes('Failed to fetch') || err.message.includes('fetch')
+      ? 'Cloudflare WorkerのURLに接続できません。\n\nWorkerがまだ未作成の場合は\nhanbai-mikke-api.yymmatsu.workers.devを先に作成してください。\n\nすでに作成済みの場合はしばらく待ってから再試行してください。'
+      : 'エラーが発生しました。\n' + err.message;
+    alert(msg);
+  }
 
   document.getElementById('loadingAnalyze').classList.remove('show');
   document.getElementById('analyzeBtn').disabled = false;
@@ -569,6 +578,7 @@ async function generate() {
 
   const price = document.getElementById('price').value.trim();
   const appUrl = document.getElementById('appUrl').value.trim();
+  const stripeUrl = document.getElementById('stripeUrl').value.trim();
   const strength = document.getElementById('strength').value.trim();
   const episodePersonal = document.getElementById('episodePersonal').value.trim();
   const lenLabel = selectedLength === 4000 ? '4000字以上の長文' : `約${selectedLength}字`;
@@ -585,7 +595,7 @@ async function generate() {
 
 【商品情報】
 アプリ名：${name} / キャッチコピー：${catchCopy}
-価格：${price || '未設定'} / URL：${appUrl || '未設定'}
+価格：${price || '未設定'} / URL：${appUrl || '未設定'} / Stripe：${stripeUrl || '未設定'}
 
 【ターゲット情報】
 ターゲット：${target}
@@ -653,7 +663,10 @@ DAY1|Instagram|（投稿文）#ハッシュタグ
 
   } catch(err) {
     document.getElementById('loadingGenerate').classList.remove('show');
-    alert('エラーが発生しました。\n' + err.message);
+    const msg = err.message.includes('Failed to fetch') || err.message.includes('fetch')
+      ? 'Cloudflare WorkerのURLに接続できません。\n\nWorkerがまだ未作成の場合は\nhanbai-mikke-api.yymmatsu.workers.devを先に作成してください。'
+      : 'エラーが発生しました。\n' + err.message;
+    alert(msg);
   }
   document.getElementById('generateBtn').disabled = false;
 }
